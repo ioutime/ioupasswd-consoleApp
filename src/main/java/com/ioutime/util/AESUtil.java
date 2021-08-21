@@ -75,19 +75,4 @@ public class AESUtil {
             return digest;
         }
     }
-
-
-//    public static void main(String[] args) throws Exception {
-//        // 原文:
-//        String message = "你好123，ajj";
-//        System.out.println("Message: " + message);
-//        // 256位密钥 = 32 bytes Key:
-//        String key = "1234";
-//        // 加密:
-//        String encrypted = encrypt(key, message);
-//        System.out.println("Encrypted: " + encrypted);
-//        // 解密:
-//        String decrypted = decrypt(key, encrypted);
-//        System.out.println("Decrypted: " + decrypted);
-//    }
 }

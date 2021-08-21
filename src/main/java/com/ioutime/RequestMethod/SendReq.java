@@ -15,6 +15,7 @@ import java.net.URL;
  */
 
 public class SendReq {
+
     private static final String USER_AGENT = "Mozilla/5.0";
     // HTTP GET请求
     public JSONObject sendGet(String url) throws Exception {
@@ -57,4 +58,6 @@ public class SendReq {
         }
         return jsonObject;
     }
+
+
 }

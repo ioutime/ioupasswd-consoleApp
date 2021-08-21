@@ -13,16 +13,13 @@ import java.util.Properties;
  */
 
 public class FileUtil {
-    public Map<String, String> readFile() throws IOException {
+    public String readFile() throws IOException {
         InputStream in = FileUtil.class.getClassLoader().getResourceAsStream("config.ini");
         BufferedReader br = new BufferedReader(new InputStreamReader(in));
         Properties props = new Properties();
         props.load(br);
-        Map<String, String> map = new HashMap<>();
-        for(Object s: props.keySet()){
-            map.put(s.toString(), props.getProperty(s.toString()));
-        }
-        return map;
+        String token = props.getProperty("token");
+        return token;
     }
 
     public boolean writeFile(String token)  {

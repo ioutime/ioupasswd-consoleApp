@@ -2,10 +2,14 @@ package com.ioutime.service;
 
 import com.alibaba.fastjson.JSONObject;
 import com.ioutime.RequestMethod.SendReq;
-import com.ioutime.util.FileUtil;
-import com.ioutime.util.ResponseUtil;
-import com.ioutime.util.ScannerUtil;
+import com.ioutime.util.*;
 
+import java.math.BigInteger;
+import java.nio.charset.StandardCharsets;
+import java.security.GeneralSecurityException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.Locale;
 import java.util.Objects;
 
 /**
@@ -27,30 +31,40 @@ public class LoginService {
         }
         return count;
     }
-    private static boolean login(){
-        System.out.println("请先登录");
+    public static boolean login(){
+        System.out.println("用户登录");
         System.out.print(IOU);
         System.out.print("用户名:");
         String username = ScannerUtil.readScanner();
         System.out.print(IOU);
-        System.out.print("密码:");
+        System.out.print("密  码:");
         String password = ScannerUtil.readScanner();
+        if(username.length()==0 || password.length()==0){
+            System.out.println("用户名或密码不能为空");
+            return false;
+        }
         /*登录请求*/
-        FileUtil fileUtil = new FileUtil();
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("username",username);
-        jsonObject.put("password",password);
+        try {
+            jsonObject.put("password", Md5Util.md5(password));
+        } catch (NoSuchAlgorithmException e) {
+            System.out.println("加密问题");
+            return false;
+        }
         try {
             JSONObject post = new SendReq().sendOther("POST", LOGIN, jsonObject);
             boolean login = new ResponseUtil().login(post);
             return login;
         } catch (Exception e) {
-            e.printStackTrace();
-
             System.out.println("登录失败"+e.getClass());
-            System.out.print(IOU);
             return false;
         }
+    }
+    private static String md5Util(String s) throws NoSuchAlgorithmException {
+        MessageDigest md5 = MessageDigest.getInstance("md5");
+        byte[] digest = md5.digest(s.getBytes(StandardCharsets.UTF_8));
+        return new BigInteger(1, digest).toString(16);
     }
 
 }

@@ -7,9 +7,14 @@ package com.ioutime.util;
  */
 
 public class ByeUtil {
-    static {
+    public boolean exit(){
+        boolean b = new FileUtil().writeFile("");
         System.out.println();
         System.out.println("-----------------BYE-----------------");
-        System.exit(0);
+        return !b;
+    }
+
+    public void clear(){
+        new FileUtil().writeFile("");
     }
 }

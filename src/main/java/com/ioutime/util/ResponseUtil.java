@@ -28,15 +28,32 @@ public class ResponseUtil {
                 //保存token
                 boolean b = new FileUtil().writeFile(res.get("data").toString());
                 System.out.println(res.get("msg").toString());
-                System.out.print(IOU);
                 return b;
             }else {
                 System.out.println(res.get("msg").toString());
-                System.out.print(IOU);
                 return false;
             }
         }
     }
+
+    public boolean register(JSONObject jsonObject){
+        if(!Objects.equals(null,jsonObject.get("code"))){
+            System.out.println("服务器问题"+jsonObject.get("code"));
+            return false;
+        }else {
+            JSONObject res = JSONObject.parseObject(jsonObject.get("res").toString());
+            String code = res.get("code").toString();
+            if(Objects.equals(code,"200")){
+                System.out.println(res.get("msg").toString());
+                return true;
+            }else{
+                System.out.println(res.get("msg").toString());
+                return false;
+            }
+
+        }
+    }
+
     /*处理add,del*/
     public void dispose(JSONObject jsonObject){
         if(!Objects.equals(null,jsonObject.get("code"))){
@@ -79,7 +96,7 @@ public class ResponseUtil {
                     String msg = message.get("msg").toString();
                     try {
                         String decrypt = new AESUtil().decrypt(key, msg);
-                        String[] split = decrypt.split(";");
+                        String[] split = decrypt.split(";`");
                         System.out.println("序  号:"+id);
                         System.out.println("备  注:"+notes);
                         String[] name = {"网  址:","用户名:","密  码:"};

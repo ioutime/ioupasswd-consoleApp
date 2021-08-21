@@ -41,8 +41,8 @@ public class MessageServiceImp implements MessageService {
         System.out.print(IOU);
         System.out.print("密码:");
         String password = ScannerUtil.readScanner();
-        String msg = url +";"+ username +";" + password;
-        if(msg.length()==2){
+        String msg = url +";`"+ username +";`" + password;
+        if(msg.length()==4){
             System.out.println("输入的信息为空");
             System.out.print(IOU);
             return;
@@ -60,6 +60,7 @@ public class MessageServiceImp implements MessageService {
         }
         try {
             params.put("token", new FileUtil().readFile());
+            System.out.println(new FileUtil().readFile());
         } catch (IOException e) {
             System.out.print(IOU);
             System.out.println("token"+e.getClass());
@@ -80,11 +81,14 @@ public class MessageServiceImp implements MessageService {
         System.out.print("要删的序号:");
         String ids = ScannerUtil.readScanner();
         if(ids.length() == 0){
-            System.out.println(IOU+"不能为空");
+            System.out.println("不能为空");
+            System.out.print(IOU);
+            return;
         }
         int id = Integer.parseInt(ids);
         try {
             String token = new FileUtil().readFile();
+            System.out.println(token);
             JSONObject params = new JSONObject();
             params.put("id",id);
             params.put("token",token);
@@ -109,6 +113,7 @@ public class MessageServiceImp implements MessageService {
         JSONObject jsonObject = new JSONObject();
         try {
             String token = new FileUtil().readFile();
+            System.out.println(token);
             jsonObject.put("token",token);
             jsonObject.put("notes",note);
             JSONObject post = new SendReq().sendOther("POST", BASEURL + "select", jsonObject);
@@ -126,6 +131,7 @@ public class MessageServiceImp implements MessageService {
         JSONObject jsonObject = new JSONObject();
         try {
             String token = new FileUtil().readFile();
+            System.out.println(token);
             jsonObject.put("token",token);
             JSONObject post = new SendReq().sendOther("POST", BASEURL + "all", jsonObject);
             new ResponseUtil().getMessage(post);

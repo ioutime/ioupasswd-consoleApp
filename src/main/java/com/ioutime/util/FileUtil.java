@@ -14,17 +14,20 @@ import java.util.Properties;
 
 public class FileUtil {
     public String readFile() throws IOException {
-        InputStream in = FileUtil.class.getClassLoader().getResourceAsStream("config.ini");
-        BufferedReader br = new BufferedReader(new InputStreamReader(in));
-        Properties props = new Properties();
-        props.load(br);
-        String token = props.getProperty("token");
-        return token;
+//        InputStream in = FileUtil.class.getClassLoader().getResourceAsStream("config.ini");
+//        BufferedReader br = new BufferedReader(new InputStreamReader(in));
+//        Properties props = new Properties();
+//        props.load(br);
+//        String token = props.getProperty("token");
+//        return token;
+        FileInputStream fileInputStream = new FileInputStream("src/main/resources/config.ini");
+        byte[] bytes = new byte[1024];
+        int read = fileInputStream.read(bytes);
+        return new String(bytes,0,read);
     }
 
     public boolean writeFile(String token)  {
         try{
-            token = "token=" + token;
             FileOutputStream fileOutputStream = new FileOutputStream("src/main/resources/config.ini");
             byte[] bytes = token.getBytes(StandardCharsets.UTF_8);
             fileOutputStream.write(bytes);

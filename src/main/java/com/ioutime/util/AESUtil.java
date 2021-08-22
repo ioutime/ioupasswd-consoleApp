@@ -1,11 +1,9 @@
 package com.ioutime.util;
 
 import javax.crypto.Cipher;
-import javax.crypto.SecretKey;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 import java.io.UnsupportedEncodingException;
-import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 import java.security.GeneralSecurityException;
 import java.security.MessageDigest;
@@ -54,7 +52,7 @@ public class AESUtil {
         SecretKeySpec keySpec = new SecretKeySpec(key, "AES");
         IvParameterSpec ivps = new IvParameterSpec(iv);
         cipher.init(Cipher.DECRYPT_MODE, keySpec, ivps);
-        String s = new String(cipher.doFinal(data), "UTF-8");
+        String s = new String(cipher.doFinal(data), StandardCharsets.UTF_8);
         return s;
     }
 

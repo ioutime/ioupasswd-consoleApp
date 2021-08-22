@@ -2,17 +2,11 @@ package com.ioutime.service;
 
 import com.alibaba.fastjson.JSONObject;
 import com.ioutime.RequestMethod.SendReq;
-import com.ioutime.util.AESUtil;
-import com.ioutime.util.Md5Util;
+import com.ioutime.util.encryptUtil;
 import com.ioutime.util.ResponseUtil;
 import com.ioutime.util.ScannerUtil;
 
-import java.math.BigInteger;
-import java.nio.charset.StandardCharsets;
-import java.security.GeneralSecurityException;
-import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.Arrays;
 import java.util.Objects;
 
 /**
@@ -54,18 +48,17 @@ public class RegisterService {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("username",username);
         try {
-            jsonObject.put("password", Md5Util.md5(password));
+            jsonObject.put("password", encryptUtil.md5(password));
         } catch (NoSuchAlgorithmException e) {
             System.out.println("加密问题");
             return false;
         }
         try {
-                JSONObject post = new SendReq().sendOther("POST", BASEURL+"register", jsonObject);
-                boolean register = new ResponseUtil().register(post);
-                return register;
-            } catch (Exception e) {
-                System.out.println("登录失败"+e.getClass());
-                return false;
-            }
+            JSONObject post = new SendReq().sendOther("POST", BASEURL+"register", jsonObject);
+            return new ResponseUtil().register(post);
+        } catch (Exception e) {
+            System.out.println("登录失败"+e.getClass());
+            return false;
+        }
     }
 }

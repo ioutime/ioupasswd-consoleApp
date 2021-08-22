@@ -8,9 +8,7 @@ import com.ioutime.util.FileUtil;
 import com.ioutime.util.ResponseUtil;
 import com.ioutime.util.ScannerUtil;
 
-import java.io.IOException;
 import java.security.GeneralSecurityException;
-import java.util.Base64;
 
 /**
  * @author ioutime
@@ -58,13 +56,9 @@ public class MessageServiceImp implements MessageService {
         } catch (GeneralSecurityException e) {
             System.out.println("加密错误"+e.getClass());
         }
-        try {
-            params.put("token", new FileUtil().readFile());
-            System.out.println(new FileUtil().readFile());
-        } catch (IOException e) {
-            System.out.print(IOU);
-            System.out.println("token"+e.getClass());
-        }
+
+        params.put("token", new FileUtil().getToken());
+
         try {
             JSONObject put = new SendReq().sendOther("PUT", BASEURL + "add", params);
             new ResponseUtil().dispose(put);
@@ -87,8 +81,7 @@ public class MessageServiceImp implements MessageService {
         }
         int id = Integer.parseInt(ids);
         try {
-            String token = new FileUtil().readFile();
-            System.out.println(token);
+            String token = new FileUtil().getToken();
             JSONObject params = new JSONObject();
             params.put("id",id);
             params.put("token",token);
@@ -96,8 +89,6 @@ public class MessageServiceImp implements MessageService {
             new ResponseUtil().dispose(delete);
             System.out.println("继续操作...");
             System.out.print(IOU);
-        } catch (IOException e) {
-            System.out.println("失败1"+e.getClass());
         } catch (Exception e) {
             System.out.println("失败2"+e.getClass());
         }
@@ -112,14 +103,11 @@ public class MessageServiceImp implements MessageService {
         String note = ScannerUtil.readScanner();
         JSONObject jsonObject = new JSONObject();
         try {
-            String token = new FileUtil().readFile();
-            System.out.println(token);
+            String token = new FileUtil().getToken();
             jsonObject.put("token",token);
             jsonObject.put("notes",note);
             JSONObject post = new SendReq().sendOther("POST", BASEURL + "select", jsonObject);
             new ResponseUtil().getMessage(post);
-        } catch (IOException e) {
-            System.out.println("失败1"+e.getClass());
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("失败2"+e.getClass());
@@ -130,15 +118,11 @@ public class MessageServiceImp implements MessageService {
     public void all() {
         JSONObject jsonObject = new JSONObject();
         try {
-            String token = new FileUtil().readFile();
-            System.out.println(token);
+            String token = new FileUtil().getToken();
             jsonObject.put("token",token);
             JSONObject post = new SendReq().sendOther("POST", BASEURL + "all", jsonObject);
             new ResponseUtil().getMessage(post);
-        } catch (IOException e) {
-            System.out.println("失败1"+e.getClass());
         } catch (Exception e) {
-            e.printStackTrace();
             System.out.println("失败2"+e.getClass());
         }
     }

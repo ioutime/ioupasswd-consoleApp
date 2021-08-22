@@ -1,10 +1,14 @@
 package com.ioutime.util;
 
 import com.alibaba.fastjson.JSONObject;
+import sun.nio.cs.ext.GBK;
 
 import java.io.UnsupportedEncodingException;
+import java.math.BigInteger;
+import java.nio.charset.StandardCharsets;
 import java.security.GeneralSecurityException;
 import java.util.Arrays;
+import java.util.Base64;
 import java.util.Objects;
 
 /**
@@ -26,11 +30,13 @@ public class ResponseUtil {
             String code = res.get("code").toString();
             if(code.equals("200")){
                 //保存token
-                boolean b = new FileUtil().writeFile(res.get("data").toString());
-                System.out.println(res.get("msg").toString());
+                boolean b = new FileUtil().changeToken(res.get("data").toString());
+                String msg = res.get("msg").toString();
+                System.out.println(encryptUtil.base64Decode(msg));
                 return b;
             }else {
-                System.out.println(res.get("msg").toString());
+                String msg = res.get("msg").toString();
+                System.out.println(encryptUtil.base64Decode(msg));
                 return false;
             }
         }
@@ -44,10 +50,12 @@ public class ResponseUtil {
             JSONObject res = JSONObject.parseObject(jsonObject.get("res").toString());
             String code = res.get("code").toString();
             if(Objects.equals(code,"200")){
-                System.out.println(res.get("msg").toString());
+                String msg = res.get("msg").toString();
+                System.out.println(encryptUtil.base64Decode(msg));
                 return true;
             }else{
-                System.out.println(res.get("msg").toString());
+                String msg = res.get("msg").toString();
+                System.out.println(encryptUtil.base64Decode(msg));
                 return false;
             }
 
@@ -61,7 +69,8 @@ public class ResponseUtil {
         }else {
             JSONObject res = JSONObject.parseObject(jsonObject.get("res").toString());
             String code = res.get("code").toString();
-            System.out.println(res.get("msg").toString());
+            String msg = res.get("msg").toString();
+            System.out.println(encryptUtil.base64Decode(msg));
         }
 
     }
@@ -92,7 +101,7 @@ public class ResponseUtil {
                 for (int i = 1; i <= nums; i++) {
                     JSONObject message = JSONObject.parseObject(data.get(String.valueOf(i)).toString());
                     String id = message.get("id").toString();
-                    String notes =  message.get("notes").toString();
+                    String notes = encryptUtil.base64Decode(message.get("notes").toString());
                     String msg = message.get("msg").toString();
                     try {
                         String decrypt = new AESUtil().decrypt(key, msg);
@@ -105,13 +114,14 @@ public class ResponseUtil {
                         }
                         System.out.println("********************");
                     } catch (GeneralSecurityException | UnsupportedEncodingException e) {
-                        System.out.println("解密失败"+e.getClass());
+                        System.out.println("解密失败");
                         System.out.print(IOU);
                         return;
                     }
                 }
             }else {
-                System.out.println(res.get("msg").toString());
+                String msg = res.get("msg").toString();
+                System.out.println(encryptUtil.base64Decode(msg));
             }
         }
         System.out.print(IOU);

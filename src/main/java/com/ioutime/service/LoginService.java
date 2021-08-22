@@ -2,15 +2,11 @@ package com.ioutime.service;
 
 import com.alibaba.fastjson.JSONObject;
 import com.ioutime.RequestMethod.SendReq;
-import com.ioutime.util.*;
+import com.ioutime.util.encryptUtil;
+import com.ioutime.util.ResponseUtil;
+import com.ioutime.util.ScannerUtil;
 
-import java.math.BigInteger;
-import java.nio.charset.StandardCharsets;
-import java.security.GeneralSecurityException;
-import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.Locale;
-import java.util.Objects;
 
 /**
  * @author ioutime
@@ -47,24 +43,19 @@ public class LoginService {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("username",username);
         try {
-            jsonObject.put("password", Md5Util.md5(password));
+            jsonObject.put("password", encryptUtil.md5(password));
         } catch (NoSuchAlgorithmException e) {
             System.out.println("加密问题");
             return false;
         }
         try {
             JSONObject post = new SendReq().sendOther("POST", LOGIN, jsonObject);
-            boolean login = new ResponseUtil().login(post);
-            return login;
+            return new ResponseUtil().login(post);
         } catch (Exception e) {
-            System.out.println("登录失败"+e.getClass());
+            e.printStackTrace();
+            System.out.println("登录失败");
             return false;
         }
-    }
-    private static String md5Util(String s) throws NoSuchAlgorithmException {
-        MessageDigest md5 = MessageDigest.getInstance("md5");
-        byte[] digest = md5.digest(s.getBytes(StandardCharsets.UTF_8));
-        return new BigInteger(1, digest).toString(16);
     }
 
 }

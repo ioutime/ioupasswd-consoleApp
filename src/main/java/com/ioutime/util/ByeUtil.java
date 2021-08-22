@@ -8,13 +8,13 @@ package com.ioutime.util;
 
 public class ByeUtil {
     public boolean exit(){
-        boolean b = new FileUtil().writeFile("");
+        boolean b = new FileUtil().changeToken("");
         System.out.println();
         System.out.println("-----------------BYE-----------------");
         return !b;
     }
 
     public void clear(){
-        new FileUtil().writeFile("");
+        new FileUtil().changeToken("");
     }
 }

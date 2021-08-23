@@ -37,7 +37,7 @@ public class UserServiceImp implements UserService {
 
     @Override
     public boolean login() {
-        System.out.println("用户登录");
+        System.out.println("-用户登录");
         System.out.print(IOU);
         System.out.print("用户名:");
         String username = new ScannerUtil().readScanner();
@@ -69,7 +69,7 @@ public class UserServiceImp implements UserService {
 
     @Override
     public boolean register() {
-        System.out.println("用户注册");
+        System.out.println("-用户注册");
         System.out.print(IOU+"用 户 名:");
         String username = new ScannerUtil().readScanner();
         System.out.print(IOU+"密    码:");

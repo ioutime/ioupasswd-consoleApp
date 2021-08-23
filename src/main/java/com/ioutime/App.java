@@ -1,10 +1,13 @@
 package com.ioutime;
 
+import com.ioutime.service.imp.ConnectServiceImp;
 import com.ioutime.service.imp.MessageServiceImp;
 import com.ioutime.service.imp.UserServiceImp;
 import com.ioutime.util.ByeUtil;
 import com.ioutime.util.HelpUtil;
 import com.ioutime.util.ScannerUtil;
+
+import java.io.IOException;
 import java.util.Objects;
 
 public class App 
@@ -23,11 +26,23 @@ public class App
     }
 
     public static void main(String[] args) {
-
+        /*连接服务器*/
+        ConnectServiceImp connectServiceImp = new ConnectServiceImp();
         UserServiceImp userServiceImp = new UserServiceImp();
         MessageServiceImp messageServiceImp = new MessageServiceImp();
         ByeUtil byeUtil = new ByeUtil();
         ScannerUtil scannerUtil = new ScannerUtil();
+        try {
+            boolean connect = connectServiceImp.connect();
+            if (!connect){
+                System.out.println("连接失败");
+                return;
+            }
+            System.out.println("连接成功");
+        } catch (IOException e) {
+            System.out.println("连接出错");
+            return;
+        }
 
         System.out.print("是否是新用户(Y或N),回车直接进入登录:");
         String s = scannerUtil.readScanner();

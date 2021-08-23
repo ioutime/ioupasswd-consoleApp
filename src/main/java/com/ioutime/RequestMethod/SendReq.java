@@ -5,7 +5,9 @@ import com.ioutime.util.StreamUtil;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Arrays;
 
 
 /**
@@ -18,6 +20,12 @@ public class SendReq {
 
     private static final String USER_AGENT = "Mozilla/5.0";
 
+    public JSONObject sendGet(String url) throws IOException {
+        URL obj = new URL(url);
+        HttpURLConnection connection = (HttpURLConnection) obj.openConnection();
+        int responseCode = connection.getResponseCode();
+        return judge(responseCode, connection);
+    }
 
     // HTTP POST,PUT,DELETE请求
     public JSONObject sendOther(String method, String url, JSONObject param) throws Exception {
@@ -50,4 +58,16 @@ public class SendReq {
     }
 
 
+//    public static void main(String[] args) {
+//        try {
+//            JSONObject jsonObject = new SendReq().sendGet("http://localhost:8088/api/hello");
+//            Object code = jsonObject.get("code");
+//            System.out.println(code);
+//            Object res = jsonObject.get("res");
+//            System.out.println(res);
+//
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//    }
 }

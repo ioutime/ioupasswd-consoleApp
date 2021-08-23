@@ -8,7 +8,7 @@ package com.ioutime.util;
 
 public class VarUtil {
 
-    public static final String BASEURL = "http://localhost:8088/api/";
+    public static String BASEURL = "";
 
     private static String token = "";
 

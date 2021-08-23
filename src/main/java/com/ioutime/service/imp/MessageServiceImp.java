@@ -38,13 +38,18 @@ public class MessageServiceImp implements MessageService {
             return;
         }
         String key;
+        int count  = 3;
         while (true){
             System.out.print(IOU+"加密密钥(唯一的,不能更改):");
             key = new ScannerUtil().readScanner();
             if(new PasswordUtil().checkStrength(key)){
                 break;
             }
-            System.out.println("密钥强度不够(长度大于6,要包含数字、字母、特殊字符其中两个");
+            System.out.println("密钥强度不够\n(长度大于6,要包含数字、字母、特殊字符其中两个)\n");
+            if(count-- == 0) {
+                System.out.print(IOU);
+                return;
+            }
         }
         JSONObject params = new JSONObject();
         try {

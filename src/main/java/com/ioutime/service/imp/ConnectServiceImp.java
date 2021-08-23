@@ -3,12 +3,10 @@ package com.ioutime.service.imp;
 import com.alibaba.fastjson.JSONObject;
 import com.ioutime.RequestMethod.SendReq;
 import com.ioutime.service.ConnectService;
-import com.ioutime.util.ByeUtil;
 import com.ioutime.util.ScannerUtil;
 import com.ioutime.util.VarUtil;
 
 import java.io.*;
-import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 import java.util.Properties;
 

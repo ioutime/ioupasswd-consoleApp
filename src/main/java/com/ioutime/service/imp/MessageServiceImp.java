@@ -3,10 +3,7 @@ package com.ioutime.service.imp;
 import com.alibaba.fastjson.JSONObject;
 import com.ioutime.RequestMethod.SendReq;
 import com.ioutime.service.MessageService;
-import com.ioutime.util.AESUtil;
-import com.ioutime.util.VarUtil;
-import com.ioutime.util.ResponseUtil;
-import com.ioutime.util.ScannerUtil;
+import com.ioutime.util.*;
 
 import java.security.GeneralSecurityException;
 
@@ -40,8 +37,15 @@ public class MessageServiceImp implements MessageService {
             System.out.print(IOU);
             return;
         }
-        System.out.print(IOU+"加密密钥(唯一的,不能更改):");
-        String key = new ScannerUtil().readScanner();
+        String key;
+        while (true){
+            System.out.print(IOU+"加密密钥(唯一的,不能更改):");
+            key = new ScannerUtil().readScanner();
+            if(new PasswordUtil().checkStrength(key)){
+                break;
+            }
+            System.out.println("密钥强度不够(长度大于6,要包含数字、字母、特殊字符其中两个");
+        }
         JSONObject params = new JSONObject();
         try {
             String encrypt = new AESUtil().encrypt(key, msg);

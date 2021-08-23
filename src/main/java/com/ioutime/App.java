@@ -16,7 +16,7 @@ public class App
         System.out.println("-----------------WELCOME IOUPASSWD-----------------");
         System.out.println(
                 "1、采用AES加密密码\n" +
-                "2、自己记一个密钥key(6~10)\n" +
+                "2、自己记一个密钥key(7~10)\n" +
                 "3、加密和解密都是用的这一个key\n" +
                 "4、key忘记了,数据库里的信息无法解密\n" +
                 "5、输入help可以查看所有命令\n");

@@ -19,7 +19,7 @@ import java.util.Base64;
 
 public class AESUtil {
 
-    private  final String  AES = "AES/CBC/PKCS5Padding";
+    private final String  AES = "AES/CBC/PKCS5Padding";
 
     // 加密,返回的时Base64编码过的:
     public  String encrypt(String key32, String message) throws GeneralSecurityException {

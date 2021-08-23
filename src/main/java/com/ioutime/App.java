@@ -1,9 +1,7 @@
 package com.ioutime;
 
-
-import com.ioutime.service.LoginService;
-import com.ioutime.service.RegisterService;
 import com.ioutime.service.imp.MessageServiceImp;
+import com.ioutime.service.imp.UserServiceImp;
 import com.ioutime.util.ByeUtil;
 import com.ioutime.util.HelpUtil;
 import com.ioutime.util.ScannerUtil;
@@ -14,7 +12,6 @@ public class App
     private static boolean state = true;
     private static boolean limit = false;
     private static final String IOU = "---->";
-
     static {
         System.out.println("-----------------WELCOME IOUPASSWD-----------------");
         System.out.println(
@@ -23,15 +20,20 @@ public class App
                 "3、加密和解密都是用的这一个key\n" +
                 "4、key忘记了,数据库里的信息无法解密\n" +
                 "5、输入help可以查看所有命令\n");
-
     }
 
     public static void main(String[] args) {
-        System.out.print("是否是新用户(Y或N),回车直接进入登录^-^-^-:");
-        String s = ScannerUtil.readScanner();
+
+        UserServiceImp userServiceImp = new UserServiceImp();
+        MessageServiceImp messageServiceImp = new MessageServiceImp();
+        ByeUtil byeUtil = new ByeUtil();
+        ScannerUtil scannerUtil = new ScannerUtil();
+
+        System.out.print("是否是新用户(Y或N),回车直接进入登录:");
+        String s = scannerUtil.readScanner();
         /*register*/
         if(Objects.equals(s,"Y") || Objects.equals(s,"y")){
-            int i = new RegisterService().registerCount();
+            int i = userServiceImp.loginCount(false);
             if(i == 0) {
                 System.out.println("\n游客登录,使用help命令");
                 limit = true;
@@ -39,7 +41,7 @@ public class App
             }
         }
         /*login*/
-        int i = new LoginService().loginCount();
+        int i = userServiceImp.loginCount(true);
         if(i == 0) {
             System.out.println("\n游客登录,使用help命令");
             limit = true;
@@ -47,7 +49,7 @@ public class App
         System.out.print(IOU);
         /*add,del,select,msg*/
         while (state){
-            String param = ScannerUtil.readScanner();
+            String param = scannerUtil.readScanner();
             /*add*/
             if(Objects.equals(param,"add") || Objects.equals(param,"ADD")){
                 if(limit){
@@ -55,7 +57,7 @@ public class App
                     System.out.print(IOU);
                     continue;
                 }
-                new MessageServiceImp().add();
+                messageServiceImp.add();
             }
             /*select*/
             else if(Objects.equals(param,"select") || Objects.equals(param,"SELECT")){
@@ -64,7 +66,7 @@ public class App
                     System.out.print(IOU);
                     continue;
                 }
-                new MessageServiceImp().select();
+                messageServiceImp.select();
             }
             /*all*/
             else if(Objects.equals(param,"all")){
@@ -73,7 +75,16 @@ public class App
                     System.out.print(IOU);
                     continue;
                 }
-                new MessageServiceImp().all();
+                messageServiceImp.all(true);
+            }
+            /*notes*/
+            else if(Objects.equals(param,"notes")){
+                if(limit){
+                    System.out.println("未登录");
+                    System.out.print(IOU);
+                    continue;
+                }
+                messageServiceImp.all(false);
             }
             /*del*/
             else if(Objects.equals(param,"del")){
@@ -82,21 +93,21 @@ public class App
                     System.out.print(IOU);
                     continue;
                 }
-                new MessageServiceImp().del();
+                messageServiceImp.del();
             }
             /*exit*/
             else if(Objects.equals(param,"exit")){
-                state = new ByeUtil().exit();
+                state = byeUtil.exit();
             }
             /*login*/
             else if(Objects.equals(param,"login")){
-                boolean login = LoginService.login();
+                boolean login = userServiceImp.login();
                 if(login) limit = false;
                 System.out.print(IOU);
             }
             /*register*/
             else if(Objects.equals(param,"register")){
-                new RegisterService().register();
+                userServiceImp.register();
                 System.out.print(IOU);
             }
             /*help*/
@@ -105,18 +116,19 @@ public class App
             }
             /*logout*/
             else if(Objects.equals(param,"logout")){
-                new ByeUtil().clear();
+                byeUtil.clear();
                 limit = true;
                 System.out.print(IOU);
             }
             /*su*/
             else if(Objects.equals(param,"su")){
-                new ByeUtil().clear();
+                byeUtil.clear();
                 limit = true;
-                boolean login = LoginService.login();
+                boolean login = userServiceImp.login();
                 if(login) limit = false;
                 System.out.print(IOU);
             }
+
             else {
                 System.out.print(IOU);
             }

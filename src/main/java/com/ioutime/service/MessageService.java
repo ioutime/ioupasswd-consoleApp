@@ -14,5 +14,5 @@ public interface MessageService {
 
     void select();
 
-    void all();
+    void all(boolean carryMsg);
 }

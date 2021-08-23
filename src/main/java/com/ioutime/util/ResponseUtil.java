@@ -1,14 +1,9 @@
 package com.ioutime.util;
 
 import com.alibaba.fastjson.JSONObject;
-import sun.nio.cs.ext.GBK;
 
 import java.io.UnsupportedEncodingException;
-import java.math.BigInteger;
-import java.nio.charset.StandardCharsets;
 import java.security.GeneralSecurityException;
-import java.util.Arrays;
-import java.util.Base64;
 import java.util.Objects;
 
 /**
@@ -19,8 +14,9 @@ import java.util.Objects;
 
 public class ResponseUtil {
     private static final String IOU = "---->";
-    /*处理login*/
-    public boolean login(JSONObject jsonObject){
+
+    /*处理login、register*/
+    public boolean user(JSONObject jsonObject,boolean isLogin){
         if(!Objects.equals(null,jsonObject.get("code"))){
             System.out.println("服务器问题"+jsonObject.get("code"));
             System.out.print(IOU);
@@ -29,36 +25,18 @@ public class ResponseUtil {
             JSONObject res = JSONObject.parseObject(jsonObject.get("res").toString());
             String code = res.get("code").toString();
             if(code.equals("200")){
-                //保存token
-                boolean b = new FileUtil().changeToken(res.get("data").toString());
+                if(isLogin){
+                    //保存token
+                   new VarUtil().changeToken(res.get("data").toString());
+                }
                 String msg = res.get("msg").toString();
-                System.out.println(encryptUtil.base64Decode(msg));
-                return b;
+                System.out.println(new encryptUtil().base64Decode(msg));
+                return true;
             }else {
                 String msg = res.get("msg").toString();
-                System.out.println(encryptUtil.base64Decode(msg));
+                System.out.println(new encryptUtil().base64Decode(msg));
                 return false;
             }
-        }
-    }
-
-    public boolean register(JSONObject jsonObject){
-        if(!Objects.equals(null,jsonObject.get("code"))){
-            System.out.println("服务器问题"+jsonObject.get("code"));
-            return false;
-        }else {
-            JSONObject res = JSONObject.parseObject(jsonObject.get("res").toString());
-            String code = res.get("code").toString();
-            if(Objects.equals(code,"200")){
-                String msg = res.get("msg").toString();
-                System.out.println(encryptUtil.base64Decode(msg));
-                return true;
-            }else{
-                String msg = res.get("msg").toString();
-                System.out.println(encryptUtil.base64Decode(msg));
-                return false;
-            }
-
         }
     }
 
@@ -70,13 +48,13 @@ public class ResponseUtil {
             JSONObject res = JSONObject.parseObject(jsonObject.get("res").toString());
             String code = res.get("code").toString();
             String msg = res.get("msg").toString();
-            System.out.println(encryptUtil.base64Decode(msg));
+            System.out.println(new encryptUtil().base64Decode(msg));
         }
 
     }
 
     /*处理select,all*/
-    public void getMessage(JSONObject jsonObject){
+    public void getMessage(JSONObject jsonObject,boolean carryMsg){
         if(!Objects.equals(null,jsonObject.get("code"))){
             System.out.println("服务器问题"+jsonObject.get("code"));
         }else {
@@ -90,9 +68,25 @@ public class ResponseUtil {
                     System.out.print(IOU);
                     return;
                 }
+                if(!carryMsg){
+                    System.out.print("是否显示(y|n),回车直接显示:");
+                    String show = new ScannerUtil().readScanner();
+                    if(show.length()==0 || Objects.equals(show,"y") || Objects.equals(show,"Y")){
+                        for (int i = 1; i <= nums; i++) {
+                            JSONObject message = JSONObject.parseObject(data.get(String.valueOf(i)).toString());
+                            String id = message.get("id").toString();
+                            String notes = new encryptUtil().base64Decode(message.get("notes").toString());
+                            System.out.println("序  号:  "+id);
+                            System.out.println("备  注:  "+notes);
+                            System.out.println("·························\n");
+                        }
+                    }
+                    System.out.print(IOU);
+                    return;
+                }
                 System.out.print(IOU);
                 System.out.print("输入密钥用于解密:");
-                String key = ScannerUtil.readScanner();
+                String key = new ScannerUtil().readScanner();
                 if(key.length()==0){
                     System.out.println("不能为空");
                     System.out.print(IOU);
@@ -101,18 +95,18 @@ public class ResponseUtil {
                 for (int i = 1; i <= nums; i++) {
                     JSONObject message = JSONObject.parseObject(data.get(String.valueOf(i)).toString());
                     String id = message.get("id").toString();
-                    String notes = encryptUtil.base64Decode(message.get("notes").toString());
+                    String notes = new encryptUtil().base64Decode(message.get("notes").toString());
                     String msg = message.get("msg").toString();
                     try {
                         String decrypt = new AESUtil().decrypt(key, msg);
                         String[] split = decrypt.split(";`");
-                        System.out.println("序  号:"+id);
-                        System.out.println("备  注:"+notes);
-                        String[] name = {"网  址:","用户名:","密  码:"};
+                        System.out.println("序  号:  "+id);
+                        System.out.println("备  注:  "+notes);
+                        String[] name = {"网  址:  ","用户名:  ","密  码:  "};
                         for (int j = 0; j < 3; j++) {
                             System.out.println(name[j]+split[j]);
                         }
-                        System.out.println("********************");
+                        System.out.println("·························\n");
                     } catch (GeneralSecurityException | UnsupportedEncodingException e) {
                         System.out.println("解密失败");
                         System.out.print(IOU);
@@ -121,7 +115,7 @@ public class ResponseUtil {
                 }
             }else {
                 String msg = res.get("msg").toString();
-                System.out.println(encryptUtil.base64Decode(msg));
+                System.out.println(new encryptUtil().base64Decode(msg));
             }
         }
         System.out.print(IOU);

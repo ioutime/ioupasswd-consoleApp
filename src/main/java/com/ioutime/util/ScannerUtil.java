@@ -9,7 +9,7 @@ import java.util.Scanner;
  */
 
 public class ScannerUtil {
-    public static String readScanner() {
+    public  String readScanner() {
         Scanner scan = new Scanner(System.in);
         String str2 = "";
         if (scan.hasNextLine()) {

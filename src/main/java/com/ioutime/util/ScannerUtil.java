@@ -1,5 +1,6 @@
 package com.ioutime.util;
 
+import java.io.Console;
 import java.util.Scanner;
 
 /**
@@ -16,5 +17,10 @@ public class ScannerUtil {
             str2 = scan.nextLine();
         }
         return str2;
+    }
+
+    public String readPwd(){
+        Console console = System.console();
+        return new String(console.readPassword());
     }
 }

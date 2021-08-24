@@ -86,7 +86,7 @@ public class ResponseUtil {
                 }
                 System.out.print(IOU);
                 System.out.print("输入密钥用于解密:");
-                String key = new ScannerUtil().readScanner();
+                String key = new ScannerUtil().readPwd();
                 if(key.length()==0){
                     System.out.println("不能为空");
                     System.out.print(IOU);

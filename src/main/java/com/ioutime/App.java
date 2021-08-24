@@ -5,6 +5,7 @@ import com.ioutime.service.imp.MessageServiceImp;
 import com.ioutime.service.imp.UserServiceImp;
 import com.ioutime.util.ByeUtil;
 import com.ioutime.util.HelpUtil;
+import com.ioutime.util.PasswordUtil;
 import com.ioutime.util.ScannerUtil;
 
 import java.io.IOException;
@@ -143,7 +144,12 @@ public class App
                 if(login) limit = false;
                 System.out.print(IOU);
             }
-
+            /*pwd*/
+            else if(Objects.equals(param,"pwd")){
+                String password = new PasswordUtil().randomPWD();
+                System.out.println(password);
+                System.out.print(IOU);
+            }
             else {
                 System.out.print(IOU);
             }

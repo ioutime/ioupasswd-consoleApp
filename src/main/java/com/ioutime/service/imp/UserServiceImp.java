@@ -43,7 +43,7 @@ public class UserServiceImp implements UserService {
         String username = new ScannerUtil().readScanner();
         System.out.print(IOU);
         System.out.print("密  码:");
-        String password = new ScannerUtil().readScanner();
+        String password = new ScannerUtil().readPwd();
         if(username.length()==0 || password.length()==0){
             System.out.println("用户名或密码不能为空");
             return false;
@@ -73,9 +73,9 @@ public class UserServiceImp implements UserService {
         System.out.print(IOU+"用 户 名:");
         String username = new ScannerUtil().readScanner();
         System.out.print(IOU+"密    码:");
-        String password = new ScannerUtil().readScanner();
+        String password = new ScannerUtil().readPwd();
         System.out.print(IOU+"确认密码:");
-        String sure = new ScannerUtil().readScanner();
+        String sure = new ScannerUtil().readPwd();
         if(username.length()==0 || password.length()==0 || sure.length()==0 || !Objects.equals(password,sure)){
             System.out.println("输入有问题");
             return false;

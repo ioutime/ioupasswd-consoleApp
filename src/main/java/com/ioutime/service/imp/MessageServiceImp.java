@@ -41,7 +41,7 @@ public class MessageServiceImp implements MessageService {
         int count  = 3;
         while (true){
             System.out.print(IOU+"加密密钥(唯一的,不能更改):");
-            key = new ScannerUtil().readScanner();
+            key = new ScannerUtil().readPwd();
             if(new PasswordUtil().checkStrength(key)){
                 break;
             }

@@ -19,6 +19,7 @@ public class HelpUtil {
             "del      -----  删除信息\n" +
             "add      -----  添加信息\n" +
             "exit     -----  退   出\n" +
+            "pwd      -----  随机生成密码\n" +
             "help     -----  帮   助"
         );
         System.out.print("---->");

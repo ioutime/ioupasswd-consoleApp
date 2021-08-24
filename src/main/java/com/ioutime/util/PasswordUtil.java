@@ -2,6 +2,7 @@ package com.ioutime.util;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 
 /**
  * @author ioutime
@@ -43,6 +44,25 @@ public class PasswordUtil {
         return strength >= 2;
     }
 
-
+    /**
+     * 生成8位随机密码
+     */
+    public  String randomPWD(){
+        String special = "#$%&*+,-.@";
+        int i = 1234567890;
+        String s ="qwertyuiopasdfghjklzxcvbnm";
+        String S=s.toUpperCase();
+        String word=s+S+i;
+        char[] c=word.toCharArray();
+        char[] sp = special.toCharArray();
+        Random rd = new Random();
+        StringBuilder plaintext = new StringBuilder();
+        for (int k = 0; k <= 7; k++) {
+            int index = rd.nextInt(c.length);//随机获取数组长度作为索引
+            plaintext.append(c[index]);//循环添加到字符串后面
+        }
+        plaintext.append(sp[rd.nextInt(sp.length)]);
+        return plaintext.toString();
+    }
 
 }

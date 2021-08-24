@@ -20,6 +20,10 @@ public class HelpUtil {
             "add      -----  添加信息\n" +
             "exit     -----  退   出\n" +
             "pwd      -----  随机生成密码\n" +
+            "base64e  -----  base64加密\n" +
+            "base64d  -----  base64解密\n" +
+            "md5      -----  MD5加密\n" +
+            "cls      -----  清   屏\n" +
             "help     -----  帮   助"
         );
         System.out.print("---->");

@@ -3,10 +3,10 @@ package com.ioutime.service.imp;
 import com.alibaba.fastjson.JSONObject;
 import com.ioutime.RequestMethod.SendReq;
 import com.ioutime.service.UserService;
+import com.ioutime.util.EncryptUtil;
 import com.ioutime.util.ResponseUtil;
 import com.ioutime.util.ScannerUtil;
 import com.ioutime.util.VarUtil;
-import com.ioutime.util.encryptUtil;
 import java.security.NoSuchAlgorithmException;
 import java.util.Objects;
 
@@ -52,7 +52,7 @@ public class UserServiceImp implements UserService {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("username",username);
         try {
-            jsonObject.put("password", new encryptUtil().md5(password));
+            jsonObject.put("password", new EncryptUtil().md5(password));
         } catch (NoSuchAlgorithmException e) {
             System.out.println("加密问题");
             return false;
@@ -84,7 +84,7 @@ public class UserServiceImp implements UserService {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("username",username);
         try {
-            jsonObject.put("password",new encryptUtil().md5(password));
+            jsonObject.put("password",new EncryptUtil().md5(password));
         } catch (NoSuchAlgorithmException e) {
             System.out.println("加密问题");
             return false;

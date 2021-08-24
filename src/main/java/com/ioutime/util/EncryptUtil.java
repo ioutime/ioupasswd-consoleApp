@@ -12,7 +12,7 @@ import java.util.Base64;
  * @date 2021/8/21 22:52
  */
 
-public class encryptUtil {
+public class EncryptUtil {
     public  String md5(String s) throws NoSuchAlgorithmException {
         MessageDigest md5 = MessageDigest.getInstance("md5");
         byte[] digest = md5.digest(s.getBytes(StandardCharsets.UTF_8));
@@ -24,6 +24,9 @@ public class encryptUtil {
         return new String(decode,StandardCharsets.UTF_8);
     }
 
+    public String base64Encrypt(String s){
+        return Base64.getEncoder().encodeToString(s.getBytes(StandardCharsets.UTF_8));
+    }
 
 
 }

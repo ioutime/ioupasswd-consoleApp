@@ -3,12 +3,10 @@ package com.ioutime;
 import com.ioutime.service.imp.ConnectServiceImp;
 import com.ioutime.service.imp.MessageServiceImp;
 import com.ioutime.service.imp.UserServiceImp;
-import com.ioutime.util.ByeUtil;
-import com.ioutime.util.HelpUtil;
-import com.ioutime.util.PasswordUtil;
-import com.ioutime.util.ScannerUtil;
+import com.ioutime.util.*;
 
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 import java.util.Objects;
 
 public class App 
@@ -33,6 +31,7 @@ public class App
         MessageServiceImp messageServiceImp = new MessageServiceImp();
         ByeUtil byeUtil = new ByeUtil();
         ScannerUtil scannerUtil = new ScannerUtil();
+        EncryptUtil encryptUtil = new EncryptUtil();
         try {
             boolean connect = connectServiceImp.connect();
             if (!connect){
@@ -148,6 +147,63 @@ public class App
             else if(Objects.equals(param,"pwd")){
                 String password = new PasswordUtil().randomPWD();
                 System.out.println(password);
+                System.out.print(IOU);
+            }
+            /*md5*/
+            else if(Objects.equals(param,"md5")){
+                System.out.print(IOU+"要加密的字符串: ");
+                String pwd = scannerUtil.readScanner();
+                try {
+                    if(Objects.equals(null,pwd) || pwd.length()==0){
+                        System.out.println("输入不能为空");
+                        System.out.print(IOU);
+                        continue;
+                    }
+                    String md5 = encryptUtil.md5(pwd);
+                    System.out.println(md5);
+                    System.out.print(IOU);
+                } catch (NoSuchAlgorithmException e) {
+                    System.out.println("加密失败");
+                    System.out.print(IOU);
+                }
+            }
+            /*base64d 解密*/
+            else if(Objects.equals(param,"base64D") ||Objects.equals(param,"base64d")){
+                System.out.print(IOU+"要解密的base64: ");
+                String base64 = scannerUtil.readScanner();
+                if(Objects.equals(null, base64) || base64.length()==0){
+                    System.out.println("输入不能为空");
+                    System.out.print(IOU);
+                    continue;
+                }
+                String base64Decode = encryptUtil.base64Decode(base64);
+                System.out.println("明： "+base64Decode);
+                System.out.print(IOU);
+            }
+            /*base64e 加密*/
+            else if(Objects.equals(param,"base64e") ||Objects.equals(param,"base64E")){
+                System.out.print(IOU+"要加密的字符串: ");
+                String base64d = scannerUtil.readScanner();
+                if(Objects.equals(null, base64d) || base64d.length()==0){
+                    System.out.println("输入不能为空");
+                    System.out.print(IOU);
+                    continue;
+                }
+                String base64Encrypt = encryptUtil.base64Encrypt(base64d);
+                System.out.println("密： "+base64Encrypt);
+                System.out.print(IOU);
+            }
+            else if(Objects.equals(param,"cls")){
+                try {
+                    new ProcessBuilder("cmd", "/c", "cls")
+                            .inheritIO()
+                            .start()
+                            .waitFor();
+                } catch (InterruptedException | IOException e) {
+                    System.out.println("清屏失败");
+                    System.out.print(IOU);
+                    continue;
+                }
                 System.out.print(IOU);
             }
             else {

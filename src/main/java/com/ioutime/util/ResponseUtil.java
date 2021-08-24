@@ -30,11 +30,11 @@ public class ResponseUtil {
                    new VarUtil().changeToken(res.get("data").toString());
                 }
                 String msg = res.get("msg").toString();
-                System.out.println(new encryptUtil().base64Decode(msg));
+                System.out.println(new EncryptUtil().base64Decode(msg));
                 return true;
             }else {
                 String msg = res.get("msg").toString();
-                System.out.println(new encryptUtil().base64Decode(msg));
+                System.out.println(new EncryptUtil().base64Decode(msg));
                 return false;
             }
         }
@@ -48,7 +48,7 @@ public class ResponseUtil {
             JSONObject res = JSONObject.parseObject(jsonObject.get("res").toString());
             String code = res.get("code").toString();
             String msg = res.get("msg").toString();
-            System.out.println(new encryptUtil().base64Decode(msg));
+            System.out.println(new EncryptUtil().base64Decode(msg));
         }
 
     }
@@ -75,7 +75,7 @@ public class ResponseUtil {
                         for (int i = 1; i <= nums; i++) {
                             JSONObject message = JSONObject.parseObject(data.get(String.valueOf(i)).toString());
                             String id = message.get("id").toString();
-                            String notes = new encryptUtil().base64Decode(message.get("notes").toString());
+                            String notes = new EncryptUtil().base64Decode(message.get("notes").toString());
                             System.out.println("序  号:  "+id);
                             System.out.println("备  注:  "+notes);
                             System.out.println("·························\n");
@@ -95,7 +95,7 @@ public class ResponseUtil {
                 for (int i = 1; i <= nums; i++) {
                     JSONObject message = JSONObject.parseObject(data.get(String.valueOf(i)).toString());
                     String id = message.get("id").toString();
-                    String notes = new encryptUtil().base64Decode(message.get("notes").toString());
+                    String notes = new EncryptUtil().base64Decode(message.get("notes").toString());
                     String msg = message.get("msg").toString();
                     try {
                         String decrypt = new AESUtil().decrypt(key, msg);
@@ -115,7 +115,7 @@ public class ResponseUtil {
                 }
             }else {
                 String msg = res.get("msg").toString();
-                System.out.println(new encryptUtil().base64Decode(msg));
+                System.out.println(new EncryptUtil().base64Decode(msg));
             }
         }
         System.out.print(IOU);
